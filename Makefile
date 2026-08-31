@@ -7,6 +7,9 @@ all: ${EXECUTABLE}
 ${EXECUTABLE}: ${SOURCES}
 	${CC} ${SOURCES} -o $@
 
+run:
+	./${EXECUTABLE} TotalAreaVTBL4
+
 clean:
-	rm main
+	rm ${EXECUTABLE}
 
