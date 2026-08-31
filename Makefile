@@ -1,10 +1,11 @@
 CC = g++
-SOURCES = main.cpp
 EXECUTABLE = total_area
+SOURCES = main.cpp
+HEADERS = shapes.h common.h total_area.h
 
 all: ${EXECUTABLE}
 
-${EXECUTABLE}: ${SOURCES}
+${EXECUTABLE}: ${SOURCES} ${HEADERS}
 	${CC} ${SOURCES} -o $@
 
 run:

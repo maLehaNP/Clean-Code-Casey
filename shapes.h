@@ -1,5 +1,5 @@
-typedef float f32;
-typedef unsigned int u32;
+#pragma once
+#include "common.h"
 const f32 Pi32 = 3.141592f;
 
 
