@@ -1,9 +1,10 @@
-CC = gcc
-SOURCES = main.c
+CC = g++
+SOURCES = main.cpp
+EXECUTABLE = total_area
 
-all: main
+all: ${EXECUTABLE}
 
-main: ${SOURCES}
+${EXECUTABLE}: ${SOURCES}
 	${CC} ${SOURCES} -o $@
 
 clean:
