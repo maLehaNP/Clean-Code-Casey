@@ -49,17 +49,17 @@ int main(int argc, char *argv[]) {
   u32 ShapeCount = 1048576;  // 2^20, 0x100000
   u32 Repeats[] = { 1, 1000 };
 
-  f32 (*Functions[2])(u32, shape_base**) = { TotalAreaVTBL, TotalAreaVTBL4 };
+  //f32 (*Functions[2])(u32, shape_base**) = { TotalAreaVTBL, TotalAreaVTBL4 };
 
   struct TotalAreaFunction {
     f32 (*function)(u32, shape_base**);
     const char* name;
   };
 
-  //TotalAreaFunction Functions[2] = {
-  //  {TotalAreaVTBL, "TotalAreaVTBL"},
-  //  {TotalAreaVTBL4, "TotalAreaVTBL4"}
-  //};
+  TotalAreaFunction Functions[2] = {
+    {TotalAreaVTBL, "TotalAreaVTBL"},
+    {TotalAreaVTBL4, "TotalAreaVTBL4"}
+  };
 
   shape_base** Shapes = new shape_base* [ShapeCount];
   for (int ShapeIndex = 0; ShapeIndex < ShapeCount; ++ShapeIndex) {
@@ -85,20 +85,27 @@ int main(int argc, char *argv[]) {
     printf("\n");
 
     for (u32 f = 0; f < 2; ++f) {
-      printf("         TotalAreaFun%d(%8d): ", f, ShapeCount);
+      //printf("         TotalAreaFun%d(%8d): ", f, ShapeCount);
+      printf("        %14s(%8d): ", Functions[f].name, ShapeCount);
       fflush(stdout);
       PerfAccum = 0;
       for (int i = 0; i < RepeatCount; ++i) {
         t = clock();
-        Functions[f](ShapeCount, Shapes);
+        //Functions[f](ShapeCount, Shapes);
+        Functions[f].function(ShapeCount, Shapes);
         PerfAccum += (f32)(clock() - t) / ShapeCount;
       }
       perf[f] = PerfAccum / RepeatCount;
       printf("%10.6f cycles/shape (%f - %f = %f)\n", perf[f], 0.0f, 0.0f, 0.0f);
     }
+    printf("\n");
 
-    printf("         TotalAreaVTBL: %7.3fx\n", perf[0] / perf[0]);
-    printf("        TotalAreaVTBL4: %7.3fx\n", perf[0] / perf[1]);
+    //printf("         TotalAreaVTBL: %7.3fx\n", perf[0] / perf[0]);
+    //printf("        TotalAreaVTBL4: %7.3fx\n", perf[0] / perf[1]);
+    for (u32 f = 0; f < 2; ++f) {
+      printf("        %14s: %7.3fx\n", Functions[f].name, perf[0] / perf[f]);
+    }
+
     printf("\n");
   }
 
