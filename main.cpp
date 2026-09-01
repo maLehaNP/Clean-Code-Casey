@@ -24,16 +24,16 @@ int main(int argc, char *argv[]) {
   shape_union* Shapes2 = new shape_union[ShapeCount];
   for (int ShapeIndex = 0; ShapeIndex < ShapeCount; ++ShapeIndex) {
     switch (ShapeIndex % 4) {
-      case 0: Shapes2[ShapeIndex] = shape_union{ Shape_Square,    1.0f       }; break;
+      case 0: Shapes2[ShapeIndex] = shape_union{ Shape_Square,    1.0f, 1.0f }; break;
       case 1: Shapes2[ShapeIndex] = shape_union{ Shape_Rectangle, 1.0f, 1.0f }; break;
       case 2: Shapes2[ShapeIndex] = shape_union{ Shape_Triangle,  1.0f, 1.0f }; break;
-      case 3: Shapes2[ShapeIndex] = shape_union{ Shape_Circle,    1.0f       }; break;
+      case 3: Shapes2[ShapeIndex] = shape_union{ Shape_Circle,    1.0f, 1.0f }; break;
       default: break;
     }
   }
 
   u32 FunctionCount;
-  TotalAreaFunction Functions[4];
+  TotalAreaFunction* Functions = new TotalAreaFunction[6];
 
   if (argc > 1) {
     if (strcmp(argv[1], "TotalAreaVTBL4") == 0) {
@@ -47,6 +47,15 @@ int main(int argc, char *argv[]) {
       Functions[1] = { TotalArea_P2P, TotalAreaVTBL4, nullptr, "TotalAreaVTBL4"   };
       Functions[2] = { TotalArea_P, nullptr, TotalAreaSwitch,  "TotalAreaSwitch"  };
       Functions[3] = { TotalArea_P, nullptr, TotalAreaSwitch4, "TotalAreaSwitch4" };
+    }
+    else if (strcmp(argv[1], "TotalAreaTable4") == 0) {
+      FunctionCount = 6;
+      Functions[0] = { TotalArea_P2P, TotalAreaVTBL,  nullptr, "TotalAreaVTBL"    };
+      Functions[1] = { TotalArea_P2P, TotalAreaVTBL4, nullptr, "TotalAreaVTBL4"   };
+      Functions[2] = { TotalArea_P, nullptr, TotalAreaSwitch,  "TotalAreaSwitch"  };
+      Functions[3] = { TotalArea_P, nullptr, TotalAreaSwitch4, "TotalAreaSwitch4" };
+      Functions[4] = { TotalArea_P, nullptr, TotalAreaTable,   "TotalAreaTable"   };
+      Functions[5] = { TotalArea_P, nullptr, TotalAreaTable4,  "TotalAreaTable4"  };
     }
     else
       return -1;
@@ -94,7 +103,7 @@ int main(int argc, char *argv[]) {
     printf("\n");
   }
 
-  printf("Press any button to close...");
+  printf("Press Enter to close...");
   getchar();
 
   return 0;
