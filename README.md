@@ -18,8 +18,6 @@ make run
 ```
 to test all routines.
 
-```
-```
 `total_area` takes 1 argument, which can be:
 - TotalAreaVTBL4
 - TotalAreaSwitch4
@@ -27,7 +25,7 @@ to test all routines.
 
 `corner_area` takes argument as `total_area` with "Corner" prefix or no argument to run all routines.
 
-## Performance on my PC (AMD Ryzen 5 8400F)
+## Benchmark on my PC (AMD Ryzen 5 8400F)
 
 **Repeat Count: 1**
 
