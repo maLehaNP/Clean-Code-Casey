@@ -293,9 +293,21 @@ f32 CornerAreaAVX4_2(u32 ShapeCount, shape_union* Shapes) {
   __m512 Accum = _mm512_setzero_ps();
   u32 Count = ShapeCount/16;
   while (Count--) {
-    __m512 r1 = GetShapeAttrVec(Shapes, ShapeAttr_Type);
-    __m512 r2 = GetShapeAttrVec(Shapes, ShapeAttr_Width);
-    __m512 r3 = GetShapeAttrVec(Shapes, ShapeAttr_Height);
+    //__m512 r1 = GetShapeAttrVec(Shapes, ShapeAttr_Type);
+    //__m512 r2 = GetShapeAttrVec(Shapes, ShapeAttr_Width);
+    //__m512 r3 = GetShapeAttrVec(Shapes, ShapeAttr_Height);
+
+    f32 v[16];
+    for (int i = 0; i < 16; ++i)
+      v[i] = CTable_Corner[Shapes[i].Type];
+    __m512 r1 = _mm512_loadu_ps(v);
+    for (int i = 0; i < 16; ++i)
+      v[i] = Shapes[i].Width;
+    __m512 r2 = _mm512_loadu_ps(v);
+    for (int i = 0; i < 16; ++i)
+      v[i] = Shapes[i].Height;
+    __m512 r3 = _mm512_loadu_ps(v);
+
     Accum = _mm512_add_ps(Accum, _mm512_mul_ps(_mm512_mul_ps(r1, r2), r3));
     Shapes += 16;
   }
