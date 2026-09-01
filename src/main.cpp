@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
   u32 FunctionCount;
   TotalAreaFunction* Functions = new TotalAreaFunction[6];
 
-  if (argc > 1) {
+  if (argc == 2) {
     if (strcmp(argv[1], "TotalAreaVTBL4") == 0) {
       FunctionCount = 2;
       Functions[0] = { TotalArea_P2P, TotalAreaVTBL,  nullptr, "TotalAreaVTBL"  };
@@ -61,6 +61,10 @@ int main(int argc, char *argv[]) {
       printf("Wrong argument\n");
       return -1;
     }
+  }
+  else {
+    printf("Too few arguments\n");
+    return -1;
   }
 
   printf("\n");
@@ -104,6 +108,12 @@ int main(int argc, char *argv[]) {
       printf("%22s: %7.3fx\n", Functions[f].name, perf[0] / perf[f]);
     printf("\n");
   }
+
+  for (int ShapeIndex = 0; ShapeIndex < ShapeCount; ++ShapeIndex)
+    delete Shapes[ShapeIndex];
+  delete[] Shapes;
+  delete[] Shapes2;
+  delete[] Functions;
 
   printf("Press Enter to exit...");
   getchar();

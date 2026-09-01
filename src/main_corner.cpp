@@ -103,6 +103,12 @@ int main(int argc, char *argv[]) {
     printf("\n");
   }
 
+  for (int ShapeIndex = 0; ShapeIndex < ShapeCount; ++ShapeIndex)
+    delete Shapes[ShapeIndex];
+  delete[] Shapes;
+  delete[] Shapes2;
+  delete[] Functions;
+
   printf("Press Enter to exit...");
   getchar();
 
