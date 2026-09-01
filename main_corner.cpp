@@ -1,10 +1,9 @@
 #include <iostream>
 #include <ctime>
 #include <cstring>
-
 #include "common.h"
 #include "shapes.h"
-#include "total_area.h"
+#include "corner_area.h"
 
 
 int main(int argc, char *argv[]) {
@@ -33,29 +32,28 @@ int main(int argc, char *argv[]) {
   }
 
   u32 FunctionCount;
-  TotalAreaFunction* Functions = new TotalAreaFunction[6];
-
+  CornerAreaFunction* Functions = new CornerAreaFunction[6];
   if (argc > 1) {
-    if (strcmp(argv[1], "TotalAreaVTBL4") == 0) {
+    if      (strcmp(argv[1], "CornerAreaVTBL4")   == 0) {
       FunctionCount = 2;
-      Functions[0] = { TotalArea_P2P, TotalAreaVTBL,  nullptr, "TotalAreaVTBL"  };
-      Functions[1] = { TotalArea_P2P, TotalAreaVTBL4, nullptr, "TotalAreaVTBL4" };
+      Functions[0] = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"  };
+      Functions[1] = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4" };
     }
-    else if (strcmp(argv[1], "TotalAreaSwitch4") == 0) {
+    else if (strcmp(argv[1], "CornerAreaSwitch4") == 0) {
       FunctionCount = 4;
-      Functions[0] = { TotalArea_P2P, TotalAreaVTBL,  nullptr, "TotalAreaVTBL"    };
-      Functions[1] = { TotalArea_P2P, TotalAreaVTBL4, nullptr, "TotalAreaVTBL4"   };
-      Functions[2] = { TotalArea_P, nullptr, TotalAreaSwitch,  "TotalAreaSwitch"  };
-      Functions[3] = { TotalArea_P, nullptr, TotalAreaSwitch4, "TotalAreaSwitch4" };
+      Functions[0] = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"    };
+      Functions[1] = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4"   };
+      Functions[2] = { CornerArea_P, nullptr, CornerAreaSwitch,  "CornerAreaSwitch"  };
+      Functions[3] = { CornerArea_P, nullptr, CornerAreaSwitch4, "CornerAreaSwitch4" };
     }
-    else if (strcmp(argv[1], "TotalAreaTable4") == 0) {
+    else if (strcmp(argv[1], "CornerAreaTable4")  == 0) {
       FunctionCount = 6;
-      Functions[0] = { TotalArea_P2P, TotalAreaVTBL,  nullptr, "TotalAreaVTBL"    };
-      Functions[1] = { TotalArea_P2P, TotalAreaVTBL4, nullptr, "TotalAreaVTBL4"   };
-      Functions[2] = { TotalArea_P, nullptr, TotalAreaSwitch,  "TotalAreaSwitch"  };
-      Functions[3] = { TotalArea_P, nullptr, TotalAreaSwitch4, "TotalAreaSwitch4" };
-      Functions[4] = { TotalArea_P, nullptr, TotalAreaTable,   "TotalAreaTable"   };
-      Functions[5] = { TotalArea_P, nullptr, TotalAreaTable4,  "TotalAreaTable4"  };
+      Functions[0] = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"    };
+      Functions[1] = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4"   };
+      Functions[2] = { CornerArea_P, nullptr, CornerAreaSwitch,  "CornerAreaSwitch"  };
+      Functions[3] = { CornerArea_P, nullptr, CornerAreaSwitch4, "CornerAreaSwitch4" };
+      Functions[4] = { CornerArea_P, nullptr, CornerAreaTable,   "CornerAreaTable"   };
+      Functions[5] = { CornerArea_P, nullptr, CornerAreaTable4,  "CornerAreaTable4"  };
     }
     else {
       printf("Wrong argument\n");
@@ -71,22 +69,23 @@ int main(int argc, char *argv[]) {
 
   for (u32 r = 0; r < 2; ++r) {
     u32 RepeatCount = Repeats[r];
+
     printf("Repeat Count: %d\n", RepeatCount);
     printf("\n");
 
     for (u32 f = 0; f < FunctionCount; ++f) {
       printf("%22s(%8d): ", Functions[f].name, ShapeCount);
       fflush(stdout);
-      PerfAccum = 0;
 
+      PerfAccum = 0;
       for (int i = 0; i < RepeatCount; ++i) {
         switch (Functions[f].Type) {
-          case TotalArea_P2P:
+          case CornerArea_P2P:
             t = clock();
             Functions[f].fun1(ShapeCount, Shapes);
             PerfAccum += (f32)(clock() - t) / ShapeCount;
             break;
-          case TotalArea_P:
+          case CornerArea_P:
             t = clock();
             Functions[f].fun2(ShapeCount, Shapes2);
             PerfAccum += (f32)(clock() - t) / ShapeCount;
@@ -95,7 +94,6 @@ int main(int argc, char *argv[]) {
       }
 
       perf[f] = PerfAccum / RepeatCount;
-      //printf("%10.6f cycles/shape (%f - %f = %f)\n", perf[f], 0.0f, 0.0f, 0.0f);
       printf("%10.6f cycles/shape\n", perf[f]);
     }
     printf("\n");
