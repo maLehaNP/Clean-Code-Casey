@@ -1,19 +1,20 @@
 CC = g++
 EXECUTABLE = total_area
 EXEC2 = corner_area
-CFLAGS = -O3
-HEADERS = shapes.h common.h total_area.h corner_area.h
+CFLAGS = -O3 -I include -mavx512f
+HEADERS = include/shapes.h include/common.h include/total_area.h include/corner_area.h
 
-all: ${EXEC2}
+all: ${EXECUTABLE} ${EXEC2}
 
-${EXECUTABLE}: main.cpp ${HEADERS}
-	${CC} -o $@ ${CFLAGS} main.cpp
+${EXECUTABLE}: src/main.cpp ${HEADERS}
+	${CC} -o $@ ${CFLAGS} src/main.cpp
 
-${EXEC2}: main_corner.cpp ${HEADERS}
-	${CC} -o $@ ${CFLAGS} main_corner.cpp
+${EXEC2}: src/main_corner.cpp ${HEADERS}
+	${CC} -o $@ ${CFLAGS} src/main_corner.cpp
 
 run:
-	./${EXECUTABLE} TotalAreaVTBL4
+	#./${EXECUTABLE} TotalAreaVTBL4
+	./${EXEC2}
 
 clean:
 	rm ${EXECUTABLE} ${EXEC2}

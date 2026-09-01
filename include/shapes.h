@@ -114,7 +114,7 @@ f32 GetAreaUnion(shape_union Shape) {
 
 f32 const CTable_Corner[Shape_Count] = { 1.0f / (1.0f + 4.0f), 1.0f / (1.0f + 4.0f), 0.5f / (1.0f + 3.0f), Pi32 };
 
-f32 GetCornerAreaUnion(shape_union Shape) {
+inline f32 GetCornerAreaUnion(shape_union Shape) {
   f32 Result = CTable_Corner[Shape.Type] * Shape.Width * Shape.Height;
   return Result;
 }

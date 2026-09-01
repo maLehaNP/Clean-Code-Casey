@@ -31,41 +31,41 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  u32 FunctionCount;
-  CornerAreaFunction* Functions = new CornerAreaFunction[6];
-  if (argc > 1) {
-    if      (strcmp(argv[1], "CornerAreaVTBL4")   == 0) {
-      FunctionCount = 2;
-      Functions[0] = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"  };
-      Functions[1] = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4" };
-    }
-    else if (strcmp(argv[1], "CornerAreaSwitch4") == 0) {
-      FunctionCount = 4;
-      Functions[0] = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"    };
-      Functions[1] = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4"   };
-      Functions[2] = { CornerArea_P, nullptr, CornerAreaSwitch,  "CornerAreaSwitch"  };
-      Functions[3] = { CornerArea_P, nullptr, CornerAreaSwitch4, "CornerAreaSwitch4" };
-    }
-    else if (strcmp(argv[1], "CornerAreaTable4")  == 0) {
-      FunctionCount = 6;
-      Functions[0] = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"    };
-      Functions[1] = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4"   };
-      Functions[2] = { CornerArea_P, nullptr, CornerAreaSwitch,  "CornerAreaSwitch"  };
-      Functions[3] = { CornerArea_P, nullptr, CornerAreaSwitch4, "CornerAreaSwitch4" };
-      Functions[4] = { CornerArea_P, nullptr, CornerAreaTable,   "CornerAreaTable"   };
-      Functions[5] = { CornerArea_P, nullptr, CornerAreaTable4,  "CornerAreaTable4"  };
-    }
+  u32 FunctionCount = 13;
+  CornerAreaFunction* Functions = new CornerAreaFunction[FunctionCount];
+  Functions[0]  = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"    };
+  Functions[1]  = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4"   };
+  Functions[2]  = { CornerArea_P, nullptr, CornerAreaSwitch,  "CornerAreaSwitch"  };
+  Functions[3]  = { CornerArea_P, nullptr, CornerAreaSwitch4, "CornerAreaSwitch4" };
+  Functions[4]  = { CornerArea_P, nullptr, CornerAreaTable,   "CornerAreaTable"   };
+  Functions[5]  = { CornerArea_P, nullptr, CornerAreaTable4,  "CornerAreaTable4"  };
+  Functions[6]  = { CornerArea_P, nullptr, CornerAreaSSE,     "CornerAreaSSE"     };
+  Functions[7]  = { CornerArea_P, nullptr, CornerAreaSSE4,    "CornerAreaSSE4"    };
+  Functions[8]  = { CornerArea_P, nullptr, CornerAreaAVX,     "CornerAreaAVX"     };
+  Functions[9]  = { CornerArea_P, nullptr, CornerAreaAVX4,    "CornerAreaAVX4"    };
+  Functions[10] = { CornerArea_P, nullptr, CornerAreaSSE_2,   "CornerAreaSSE_2"   };
+  Functions[11] = { CornerArea_P, nullptr, CornerAreaSSE4_2,  "CornerAreaSSE4_2"  };
+  Functions[12] = { CornerArea_P, nullptr, CornerAreaAVX4_2,  "CornerAreaAVX4_2"  };
+
+  if (argc == 2) {
+    if      (strcmp(argv[1], "CornerAreaVTBL4")   == 0) FunctionCount = 2;
+    else if (strcmp(argv[1], "CornerAreaSwitch4") == 0) FunctionCount = 4;
+    else if (strcmp(argv[1], "CornerAreaTable4")  == 0) FunctionCount = 6;
     else {
       printf("Wrong argument\n");
       return -1;
     }
+  }
+  else if (argc > 2) {
+    printf("Too many arguments\n");
+    return -1;
   }
 
   printf("\n");
 
   clock_t t;
   f32 PerfAccum;
-  f32 perf[4];
+  f32 perf[FunctionCount];
 
   for (u32 r = 0; r < 2; ++r) {
     u32 RepeatCount = Repeats[r];
