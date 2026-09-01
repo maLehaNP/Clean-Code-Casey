@@ -2,6 +2,31 @@ My handwritten implementation of Casey's Muratori code examples from ["Clean" Co
 
 Got the idea to write from [this rust implementation](https://github.com/interpol-kun/clean_code_rust).
 
+## Build
+Run `make` to build `total_area` and `corner_area` executables:
+```bash
+make
+```
+or specify target to build only one.
+
+Compiler optimization flags: `-O3 -mavx512f`
+
+## Usage
+Do
+```bash
+make run
+```
+to test all routines.
+
+```
+```
+`total_area` takes 1 argument, which can be:
+- TotalAreaVTBL4
+- TotalAreaSwitch4
+- TotalAreaTable4
+
+`corner_area` takes argument as `total_area` with "Corner" prefix or no argument to run all routines.
+
 ## Performance on my PC (AMD Ryzen 5 8400F)
 
 **Repeat Count: 1**

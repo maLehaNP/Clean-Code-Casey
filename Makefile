@@ -13,7 +13,6 @@ ${EXEC2}: src/main_corner.cpp ${HEADERS}
 	${CC} -o $@ ${CFLAGS} src/main_corner.cpp
 
 run:
-	#./${EXECUTABLE} TotalAreaVTBL4
 	./${EXEC2}
 
 clean:
