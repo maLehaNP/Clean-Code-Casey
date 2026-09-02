@@ -31,7 +31,12 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  #ifdef __AVX512F__
   u32 FunctionCount = 13;
+  #else
+  u32 FunctionCount = 10;
+  #endif // __AVX512F__
+
   CornerAreaFunction* Functions = new CornerAreaFunction[FunctionCount];
   Functions[0]  = { CornerArea_P2P, CornerAreaVTBL,  nullptr, "CornerAreaVTBL"    };
   Functions[1]  = { CornerArea_P2P, CornerAreaVTBL4, nullptr, "CornerAreaVTBL4"   };
@@ -41,11 +46,13 @@ int main(int argc, char *argv[]) {
   Functions[5]  = { CornerArea_P, nullptr, CornerAreaTable4,  "CornerAreaTable4"  };
   Functions[6]  = { CornerArea_P, nullptr, CornerAreaSSE,     "CornerAreaSSE"     };
   Functions[7]  = { CornerArea_P, nullptr, CornerAreaSSE4,    "CornerAreaSSE4"    };
-  Functions[8]  = { CornerArea_P, nullptr, CornerAreaAVX,     "CornerAreaAVX"     };
-  Functions[9]  = { CornerArea_P, nullptr, CornerAreaAVX4,    "CornerAreaAVX4"    };
-  Functions[10] = { CornerArea_P, nullptr, CornerAreaSSE_2,   "CornerAreaSSE_2"   };
-  Functions[11] = { CornerArea_P, nullptr, CornerAreaSSE4_2,  "CornerAreaSSE4_2"  };
+  Functions[8]  = { CornerArea_P, nullptr, CornerAreaSSE_2,   "CornerAreaSSE_2"   };
+  Functions[9]  = { CornerArea_P, nullptr, CornerAreaSSE4_2,  "CornerAreaSSE4_2"  };
+  #ifdef __AVX512F__
+  Functions[10] = { CornerArea_P, nullptr, CornerAreaAVX,     "CornerAreaAVX"     };
+  Functions[11] = { CornerArea_P, nullptr, CornerAreaAVX4,    "CornerAreaAVX4"    };
   Functions[12] = { CornerArea_P, nullptr, CornerAreaAVX4_2,  "CornerAreaAVX4_2"  };
+  #endif // __AVX512F__
 
   if (argc == 2) {
     if      (strcmp(argv[1], "CornerAreaVTBL4")   == 0) FunctionCount = 2;

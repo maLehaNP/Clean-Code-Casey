@@ -1,7 +1,7 @@
 CC = g++
 EXECUTABLE = total_area
 EXEC2 = corner_area
-CFLAGS = -O3 -I include -mavx512f -static
+CFLAGS = -I include -static -O3 -mavx512f
 HEADERS = include/shapes.h include/common.h include/total_area.h include/corner_area.h
 
 all: ${EXECUTABLE} ${EXEC2}

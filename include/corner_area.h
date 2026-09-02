@@ -102,7 +102,7 @@ f32 CornerAreaTable4(u32 ShapeCount, shape_union* Shapes) {
 }
 
 
-// AVX routines
+// SIMD routines
 
 f32 CornerAreaSSE(u32 ShapeCount, shape_union* Shapes) {
   __m128 Accum = _mm_setzero_ps();
@@ -212,6 +212,9 @@ f32 CornerAreaSSE4_2(u32 ShapeCount, shape_union* Shapes) {
 }
 
 
+// AVX routines
+
+#ifdef __AVX512F__
 f32 CornerAreaAVX(u32 ShapeCount, shape_union* Shapes) {
   __m512 Accum = _mm512_setzero_ps();
 
@@ -313,4 +316,5 @@ f32 CornerAreaAVX4_2(u32 ShapeCount, shape_union* Shapes) {
   }
   return _mm512_reduce_add_ps(Accum);
 }
+#endif // __AVX512F__
 
